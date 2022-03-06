@@ -1,2 +1,13 @@
-<h1>{{page_title}}</h1>
-<p>home works!</p>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="loading" *ngIf="!posts">
+    Cargando...
+</div>
+
+<div class="container-fluid mt-3" *ngIf="posts">
+    <h1>{{page_title}}</h1>
+    <hr>
+    <post-list [posts]="posts" [identity]="identity" [url]="url"></post-list>
+    
+</div>
+

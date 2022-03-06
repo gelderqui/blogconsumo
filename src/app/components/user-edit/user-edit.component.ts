@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 //import { User } from 'src/app/models/user';
 import { User } from '../../models/user';
 import { UserService } from 'src/app/services/user.service';
+import { global } from '../../services/global';
 
 
 @Component({
@@ -17,13 +18,32 @@ export class UserEditComponent implements OnInit {
   public identity;
   public token;
   public status;
+  public url;
   public froala_options : Object = {
     charCounterCount: true,
-    toolbarButtons: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-    toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-    toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-    toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
-  };;
+    languaje:'es',
+    toolbarButtons: ['bold', 'italic', 'underline', 'paragraphFormat'],
+    toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat'],
+    toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat'],
+    toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat'],
+  };
+  public afuConfig = {
+    multiple: false,
+    formatsAllowed: ".jpg, .png, .gif, .jpeg",
+    maxSize: "50",
+    uploadAPI:  {
+      url:global.url+'user/upload',
+      headers: {
+     "Authorization" : this._userService.getToken()
+     
+      }
+    },
+    theme: "attachPin",
+    hideProgressBar: false,
+    hideResetBtn: true,
+    hideSelectBtn: false,
+    attachPinText:'Sube tu avatar'
+};
 
   constructor(
     private _userService: UserService
@@ -32,10 +52,16 @@ export class UserEditComponent implements OnInit {
     this.user = new User(1,'','','ROLE_USER','','','','');
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
+    this.url=global.url;
     //this.user=this.identity;
     //Rellenar el usuario
-     this.user=new User(this.identity.sub,this.identity.name,this.identity.surname,this.identity.role,this.identity.email,'',
-                         this.identity.description,this.identity.image);
+     this.user=new User(this.identity.sub,
+                        this.identity.name,
+                        this.identity.surname,
+                        this.identity.role,
+                        this.identity.email,'',
+                        this.identity.description,
+                        this.identity.image);
   }
 
   ngOnInit(): void {
@@ -43,7 +69,7 @@ export class UserEditComponent implements OnInit {
   onSubmit(form){
     this._userService.update(this.token, this.user).subscribe(
       response=>{
-        console.log(response);
+        //console.log(response);
         if(response && response.status){
           this.status='success';
 
@@ -65,7 +91,8 @@ export class UserEditComponent implements OnInit {
           }
 
 
-          this.identity=response.user;
+          //this.identity=response.user;
+          this.identity=this.user;
           localStorage.setItem('identity',JSON.stringify(this.identity));
         }
         else{
@@ -78,5 +105,9 @@ export class UserEditComponent implements OnInit {
       }
     );
   }
-
+  avatarUpload(datos){
+    //console.log(JSON.parse(datos.response));
+    let data = JSON.parse(datos.response);
+    this.user.image=data.image;
+  }
 }

@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+img.pequeña{
+     width: 80px; 
+     margin-bottom: 10px;
+   }
+   /* .navbar1{
+    width: 80px; 
+    height: 80px;
+    border-radius: 900px;
+    overflow: hidden;
+   
+  } */
+  .avatar_mask{
+    width: 50px; 
+    height: 50px;
+    border-radius: 900px;
+    overflow: hidden;
+  }
+
+  .avatar_mask img{
+    height: 65px;
+  }
+  .avatar_mask_profile{
+    width: 100px; 
+    height: 100px;
+    border-radius: 900px;
+    overflow: hidden;
+  }
+
+  .avatar_mask_profile img{
+    height: 130px;
+  }
+
+  .card-header a{
+    color:#444;
+  }
+
+  .post-image{
+    height: 200px;
+    overflow: hidden;
+  }
+  .post-image-ver{
+    width: 800px;
+     height: 100px;
+     
+     overflow: hidden;
+    /*transform: scale(0.5); */
+  }
+  footer{
+    margin-top: 50px;
+    color:lightgray;
+  }
